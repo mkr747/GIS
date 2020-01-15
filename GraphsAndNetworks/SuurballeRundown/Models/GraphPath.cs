@@ -9,7 +9,6 @@ namespace SuurballeRundown.Models
 
         public GraphPath()
         {
-
         }
 
         public GraphPath(IList<Vertex> vertices)

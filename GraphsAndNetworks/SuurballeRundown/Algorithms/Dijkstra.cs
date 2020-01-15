@@ -12,57 +12,57 @@ namespace SuurballeRundown.Algorithms
         {
         }
 
-        //public GraphPath ExecuteListVersion(int source, int destination)
-        //{
-        //    var q = _graph.Vertices.ToList();
-        //    var s = new List<Vertex>();
+        public GraphPath ExecuteListVersion(Graph graph, int source, int destination)
+        {
+            var q = graph.Vertices.ToList();
+            var s = new List<Vertex>();
 
-        //    for (int i = 0; i < q.Count; i++)
-        //    {
-        //        q[i].ReachingCost = INF;
-        //        q[i].Previous = null;
-        //    }
+            for (int i = 0; i < q.Count; i++)
+            {
+                q[i].ReachingCost = INF;
+                q[i].Previous = null;
+            }
 
-        //    q[source].ReachingCost = 0;
-        //    var currIndex = source;
-        //    do
-        //    {
-        //        var minimum = INF;
-        //        var smallestIndex = 0;
-        //        foreach(var neighbour in q[currIndex].Neighbours)
-        //        {
-        //            if(minimum > neighbour.ReachingCost)
-        //            {
-        //                minimum = neighbour.ReachingCost;
-        //                smallestIndex = neighbour.Index;
-        //            }
-        //        }
+            q[source].ReachingCost = 0;
+            var currIndex = source;
+            do
+            {
+                var minimum = INF;
+                var smallestIndex = 0;
+                foreach (var neighbour in graph.GetNeighbours(q[currIndex]))
+                {
+                    if (minimum > neighbour.ReachingCost)
+                    {
+                        minimum = neighbour.ReachingCost;
+                        smallestIndex = neighbour.Index;
+                    }
+                }
 
 
-        //        s.Add(q[currIndex]);
-        //        q.RemoveAt(currIndex);
+                s.Add(q[currIndex]);
+                q.RemoveAt(currIndex);
 
-        //        if (smallestIndex == destination)
-        //            break;
+                if (smallestIndex == destination)
+                    break;
 
-        //        foreach (var neighbour in q[smallestIndex].Neighbours)
-        //        {
-        //            var newDist = q[smallestIndex].ReachingCost + neighbour.ReachingCost;
-        //            if (neighbour.ReachingCost > newDist)
-        //            {
-        //                var index = _graph.GetVertexId(neighbour.Index);
-        //                if (index != -1)
-        //                {
-        //                    q[index].ReachingCost = newDist;
-        //                    q[index].Previous = q[smallestIndex];
-        //                }
-        //            }
-        //        }
-        //    }
-        //    while (q.Count > 0);
+                foreach (var neighbour in graph.GetNeighbours(q[smallestIndex]))
+                {
+                    var newDist = q[smallestIndex].ReachingCost + neighbour.ReachingCost;
+                    if (neighbour.ReachingCost > newDist)
+                    {
+                        var index = graph.GetVertexId(neighbour.Index);
+                        if (index != -1)
+                        {
+                            q[index].ReachingCost = newDist;
+                            q[index].Previous = q[smallestIndex];
+                        }
+                    }
+                }
+            }
+            while (q.Count > 0);
 
-        //    return new GraphPath(s);
-        //}
+            return new GraphPath(s);
+        }
 
         public GraphPath ExecuteArrayVersion(Graph graph, int source, int destination)
         {

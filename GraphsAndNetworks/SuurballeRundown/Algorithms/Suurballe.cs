@@ -16,8 +16,10 @@ namespace SuurballeRundown.Algorithms
         public void Execute(int source, int destination)
         {
             var first = _dijkstra.ExecuteArrayVersion(_graph, source, destination);
-            _graph.Revert();
-            var second = _dijkstra.ExecuteArrayVersion(_graph, destination, source);
+            var graph = _graph.Clone(first.Vertices);
+
+            graph.Revert();
+            var second = _dijkstra.ExecuteArrayVersion(graph, destination, source);
         }
     }
 }
