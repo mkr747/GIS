@@ -9,16 +9,15 @@ namespace SuurballeRundown.Algorithms
 
         public Suurballe(Graph graph)
         {
-            _dijkstra = new Dijkstra(graph);
+            _dijkstra = new Dijkstra();
             _graph = graph;
         }
 
-        public void Execute(Vertex root)
+        public void Execute(int source, int destination)
         {
-            foreach(var i in _graph.Vertices)
-            {
-                _dijkstra.FindPath(root, i);
-            }
+            var first = _dijkstra.ExecuteArrayVersion(_graph, source, destination);
+            _graph.Revert();
+            var second = _dijkstra.ExecuteArrayVersion(_graph, destination, source);
         }
     }
 }

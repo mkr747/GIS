@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 
-namespace SuurballeRundown.Services
+namespace SuurballeRundown.Serializer
 {
     public class GraphSerializer
     {
@@ -22,9 +22,9 @@ namespace SuurballeRundown.Services
             _outputFile = output;
         }
 
-        public Graph GetGraph() => JsonSerializer.Deserialize<Graph>(File.ReadAllText(_dataFile));
+        public GraphDTO GetGraph() => JsonSerializer.Deserialize<GraphDTO>(File.ReadAllText(_dataFile));
 
-        public void SetGraph(Graph graph) => File.WriteAllText(_dataFile, JsonSerializer.Serialize(graph));
+        public void SetGraph(GraphDTO graph) => File.WriteAllText(_dataFile, JsonSerializer.Serialize(graph));
 
         public void SaveToFile(IEnumerable<GraphPath> path) => File.WriteAllText(_outputFile, JsonSerializer.Serialize(path));
     }

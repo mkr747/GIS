@@ -5,21 +5,51 @@ namespace SuurballeRundown.Models
 {
     public class GraphPath
     {
-        private Vertex _source;
-        private Vertex _destination;
-
-        public IEnumerable<Vertex> Vertices { get; set; }
-
-        public IEnumerable<Edge> Edges { get; private set; }
+        public IList<Vertex> Vertices { get; set; }
 
         public GraphPath()
         {
 
         }
 
-        public void AddEdge(int startId, int endId)
+        public GraphPath(IList<Vertex> vertices)
         {
-            
+            Vertices = vertices;
+        }
+
+        public GraphPath(Vertex[] vertices)
+        {
+            Vertices = vertices.ToList();
+        }
+
+        public GraphPath(int[] verticiesId, int[] verticesCost)
+        {
+            Vertices = new List<Vertex>();
+            for(int i = 0; i < verticiesId.Length; i++)
+            {
+                var previous = Vertices.Count > 0 ? Vertices.Last() : null;
+                var vertex = new Vertex()
+                {
+                    Index = verticiesId[i],
+                    ReachingCost = verticesCost[verticiesId[i]],
+                    Previous = previous,
+                };
+
+                Vertices.Add(vertex);
+            }
+        }
+
+        public int GetVertexId(int index)
+        {
+            for(int i = 0; i < 0; i++)
+            {
+                if(index == Vertices[i].Index)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
     }
 }
