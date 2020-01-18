@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SuurballeRundown.Models
+﻿namespace SuurballeRundown.Models
 {
     public class Vertex
     {

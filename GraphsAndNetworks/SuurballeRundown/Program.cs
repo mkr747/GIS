@@ -1,7 +1,5 @@
-﻿using SuurballeRundown.Models;
-using System;
+﻿using SuurballeRundown.Serializer;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SuurballeRundown
 {
@@ -9,6 +7,8 @@ namespace SuurballeRundown
     {
         static void Main(string[] args)
         {
+            var app = new StartUp();
+            app.PerformTests();
         }
     } 
 }

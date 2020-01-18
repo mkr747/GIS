@@ -2,24 +2,24 @@
 
 namespace SuurballeRundown.Algorithms
 {
-    public class Suurballe
+    public class Suurballe : ISuurballe
     {
-        private readonly Dijkstra _dijkstra;
-        private readonly Graph _graph;
+        private readonly IDijkstra _dijkstra;
 
-        public Suurballe(Graph graph)
+        public Suurballe(IDijkstra dijkstra)
         {
-            _dijkstra = new Dijkstra();
-            _graph = graph;
+            _dijkstra = dijkstra;
         }
 
-        public void Execute(int source, int destination)
+        public GraphPath[] Execute(Graph graph, int source, int destination)
         {
-            var first = _dijkstra.ExecuteArrayVersion(_graph, source, destination);
-            var graph = _graph.Clone(first.Vertices);
+            var first = _dijkstra.ExecuteListVersion(graph, source, destination);
+            var newGraph = graph.Clone(first.Vertices);
 
-            graph.Revert();
-            var second = _dijkstra.ExecuteArrayVersion(graph, destination, source);
+            newGraph.Revert();
+            var second = _dijkstra.ExecuteListVersion(newGraph, destination, source);
+
+            return new GraphPath[] { first, second };
         }
     }
 }

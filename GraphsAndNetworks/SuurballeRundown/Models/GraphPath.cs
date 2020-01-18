@@ -9,6 +9,7 @@ namespace SuurballeRundown.Models
 
         public GraphPath()
         {
+
         }
 
         public GraphPath(IList<Vertex> vertices)
@@ -36,19 +37,6 @@ namespace SuurballeRundown.Models
 
                 Vertices.Add(vertex);
             }
-        }
-
-        public int GetVertexId(int index)
-        {
-            for(int i = 0; i < 0; i++)
-            {
-                if(index == Vertices[i].Index)
-                {
-                    return i;
-                }
-            }
-
-            return -1;
         }
     }
 }

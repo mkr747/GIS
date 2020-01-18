@@ -1,31 +1,35 @@
 ﻿using SuurballeRundown.Models;
 using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
 
 namespace SuurballeRundown.Serializer
 {
     public class GraphSerializer
     {
-        private readonly string _dataFile;
-        private readonly string _outputFile;
-
-        public GraphSerializer(string storingDirectory)
+        public static Graph Serialize(GraphDTO graph)
         {
-            _dataFile = $"{storingDirectory}\\input";
-            _outputFile = $"{storingDirectory}\\result";
+            var verticies = new List<Vertex>();
+            foreach(var element in graph.Vertices)
+            {
+                verticies.Add(new Vertex{ Index = element });
+            }
+
+            var dictionary = new Dictionary<Relation, int>();
+            var size = verticies.Count;
+            for (int i = 0; i < size; i++)
+            {
+                for(int o = 0; o < size; o++)
+                {
+                    dictionary.Add(new Relation(i, o), graph.AdjacencyTable[i, o]);
+                }
+            }
+
+            var outputGraph = new Graph
+            {
+                Vertices = verticies,
+                AdjacencyTable = dictionary
+            };
+
+            return outputGraph;
         }
-
-        public GraphSerializer(string input, string output)
-        {
-            _dataFile = input;
-            _outputFile = output;
-        }
-
-        public GraphDTO GetGraph() => JsonSerializer.Deserialize<GraphDTO>(File.ReadAllText(_dataFile));
-
-        public void SetGraph(GraphDTO graph) => File.WriteAllText(_dataFile, JsonSerializer.Serialize(graph));
-
-        public void SaveToFile(IEnumerable<GraphPath> path) => File.WriteAllText(_outputFile, JsonSerializer.Serialize(path));
     }
 }

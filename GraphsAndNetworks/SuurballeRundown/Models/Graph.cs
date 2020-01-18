@@ -6,6 +6,6 @@ namespace SuurballeRundown.Models
     {
         public IList<Vertex> Vertices { get; set; }
 
-        public Dictionary<Relation, int> AdjacencyTable { get; set; }
+        public IDictionary<Relation, int> AdjacencyTable { get; set; }
     }
 }

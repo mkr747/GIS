@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SuurballeRundown.Algorithms
 {
-    public class Dijkstra
+    public class Dijkstra : IDijkstra
     {
         private const int INF = 1000000;
 
@@ -39,12 +39,15 @@ namespace SuurballeRundown.Algorithms
                 }
 
 
-                s.Add(q[currIndex]);
-                q.RemoveAt(currIndex);
+                var get = q.GetVertex(currIndex);
+                s.Add(get);
+                q.Remove(get);
+
 
                 if (smallestIndex == destination)
                     break;
 
+                currIndex = smallestIndex;
                 foreach (var neighbour in graph.GetNeighbours(q[smallestIndex]))
                 {
                     var newDist = q[smallestIndex].ReachingCost + neighbour.ReachingCost;

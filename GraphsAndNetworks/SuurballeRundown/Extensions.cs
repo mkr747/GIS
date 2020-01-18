@@ -1,7 +1,5 @@
 ﻿using SuurballeRundown.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SuurballeRundown
 {
@@ -60,7 +58,14 @@ namespace SuurballeRundown
             {
                 if (key.InboundIndex == root.Index)
                 {
-                    output.Add(graph.Vertices.GetVertex(key.OutboundIndex));
+                    if (graph.AdjacencyTable[key] != 0)
+                    {
+                        output.Add(new Vertex
+                        {
+                            Index = key.OutboundIndex,
+                            ReachingCost = graph.AdjacencyTable[key]
+                        });
+                    }
                 }
             }
 
