@@ -23,13 +23,13 @@ namespace SuurballeRundown.Algorithms
                 q[i].Previous = null;
             }
 
-            q[source].ReachingCost = 0;
+            q.GetVertex(source).ReachingCost = 0;
             var currIndex = source;
             do
             {
                 var minimum = INF;
                 var smallestIndex = 0;
-                foreach (var neighbour in graph.GetNeighbours(q[currIndex]))
+                foreach (var neighbour in graph.GetNeighbours(q.GetVertex(currIndex)))
                 {
                     if (minimum > neighbour.ReachingCost)
                     {
@@ -45,19 +45,24 @@ namespace SuurballeRundown.Algorithms
 
 
                 if (smallestIndex == destination)
+                {
+                    var small = q.GetVertex(smallestIndex);
+                    s.Add(small);
+                    q.Remove(small);
                     break;
+                }
 
                 currIndex = smallestIndex;
-                foreach (var neighbour in graph.GetNeighbours(q[smallestIndex]))
+                foreach (var neighbour in graph.GetNeighbours(q.GetVertex(currIndex)))
                 {
-                    var newDist = q[smallestIndex].ReachingCost + neighbour.ReachingCost;
+                    var newDist = q.GetVertex(smallestIndex).ReachingCost + neighbour.ReachingCost;
                     if (neighbour.ReachingCost > newDist)
                     {
                         var index = graph.GetVertexId(neighbour.Index);
                         if (index != -1)
                         {
-                            q[index].ReachingCost = newDist;
-                            q[index].Previous = q[smallestIndex];
+                            q.GetVertex(index).ReachingCost = newDist;
+                            q.GetVertex(index).Previous = q.GetVertex(smallestIndex);
                         }
                     }
                 }

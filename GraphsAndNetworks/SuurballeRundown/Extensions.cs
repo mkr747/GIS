@@ -1,4 +1,5 @@
 ﻿using SuurballeRundown.Models;
+using System;
 using System.Collections.Generic;
 
 namespace SuurballeRundown
@@ -31,13 +32,14 @@ namespace SuurballeRundown
         {
             var graphClone = new Graph()
             {
-                AdjacencyTable = new Dictionary<Relation, int>(graph.AdjacencyTable),
+                AdjacencyTable = graph.GetOmmitingCopyDictionary(ommit),
                 Vertices = graph.GetOmmitingCopyVerticies(ommit),
             };
 
             return graphClone;
         }
 
+       
         public static void Revert(this Graph graph)
         {
             var newDict = new Dictionary<Relation, int>();
@@ -72,6 +74,18 @@ namespace SuurballeRundown
             return output;
         }
 
+        public static int GetCost(this Graph graph, GraphPath path)
+        {
+            var sum = 0;
+            for (int i = 1; i < path.Vertices.Count; i++)
+            {
+                var key = graph.AdjacencyTable.GetRelation(path.Vertices[i-1].Index, path.Vertices[i].Index);
+                sum += graph.AdjacencyTable[key];
+            }
+
+            return sum;
+        }
+
         public static int GetVertexId(this Graph graph, int index)
         {
             for (int i = 0; i < 0; i++)
@@ -84,6 +98,34 @@ namespace SuurballeRundown
 
             return -1;
         }
+
+        public static Relation GetRelation<T>(this IDictionary<Relation, T> dictionary, int inboundIndex, int outboundIndex)
+        {
+            foreach(var key in dictionary.Keys)
+            {
+                if(key.InboundIndex == inboundIndex && key.OutboundIndex == outboundIndex)
+                {
+                    return key;
+                }
+            }
+
+            throw new Exception("There is no such Relation");
+        }
+
+        public static Dictionary<Relation, int> GetOmmitingCopyDictionary(this Graph graph, IList<Vertex> ommit)
+        {
+            var dict = new Dictionary<Relation, int>();
+            foreach(var key in graph.AdjacencyTable.Keys)
+            {
+                if (!ommit.Contains(key.InboundIndex) && !ommit.Contains(key.OutboundIndex))
+                {
+                    dict.Add(key, graph.AdjacencyTable[key]);
+                }
+            }
+
+            return dict;
+        }
+
 
         private static IList<Vertex> GetOmmitingCopyVerticies(this Graph graph, IList<Vertex> ommit)
         {
