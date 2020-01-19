@@ -46,7 +46,19 @@ namespace SuurballeRundown
             _graphs = new List<Graph>();
             for(int i = 0; i < 10; i++)
             {
-                _graphs.Add(_graphGenerator.Generate(rnd.Next(5, 10), 70, rnd.Next(2, 30)));
+                var numberOfVerticies = rnd.Next(5, 10);
+                var precentage = 70;
+                var maxWeight = rnd.Next(2, 30);
+                _graphs.Add(_graphGenerator.Generate(numberOfVerticies, precentage, maxWeight));
+                Console.WriteLine($"Number of verticies: {numberOfVerticies}");
+                Console.WriteLine($"Edge precentage: {precentage}%");
+                Console.WriteLine($"Max weight: {maxWeight}");
+                foreach (var o  in _graphs[i].AdjacencyTable)
+                {
+                    Console.WriteLine($"Table: {o.Key.InboundIndex}, {o.Key.OutboundIndex} : {o.Value}");
+                }
+
+                Console.WriteLine();
             }
         }
     }
