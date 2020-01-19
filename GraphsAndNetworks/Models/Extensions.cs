@@ -106,9 +106,22 @@ namespace Models
 
         public static int GetVertexId(this Graph graph, int index)
         {
-            for (int i = 0; i < 0; i++)
+            for (int i = 0; i < graph.Vertices.Count; i++)
             {
                 if (index == graph.Vertices[i].Index)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        public static int GetVertexId(this IList<Vertex> vertices, int index)
+        {
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                if (index == vertices[i].Index)
                 {
                     return i;
                 }

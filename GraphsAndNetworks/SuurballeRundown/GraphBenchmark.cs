@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace SuurballeRundown
 {
@@ -54,7 +55,7 @@ namespace SuurballeRundown
                     var maxWeight = 20;
 
                     string fileName = "Graph_" + verticesNumber + "_" + edgePercentage + "_" + maxWeight + "_1";
-                    string pathToFile = Path.Combine(Environment.CurrentDirectory, fileName);
+                    string pathToFile = Path.Combine(Path.GetDirectoryName(System.AppContext.BaseDirectory), "assets", fileName);
                     if (!File.Exists(pathToFile))
                     {
                         Console.WriteLine("Reading " + fileName + " from file");

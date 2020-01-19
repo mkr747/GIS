@@ -28,6 +28,7 @@ namespace SuurballeRundown.Algorithms
 
             q.GetVertex(source).ReachingCost = 0;
             var currIndex = source;
+            var goBackInTime = -1;
             do
             {
                 var minimum = INF;
@@ -47,9 +48,11 @@ namespace SuurballeRundown.Algorithms
                 }
 
                 var get = q.GetVertex(currIndex);
-                if(!(get is null)) { 
+                if (!(get is null))
+                {
                     s.Add(get);
                     q.Remove(get);
+                    goBackInTime++;
                 }
 
                 if (smallestIndex == destination)
@@ -65,18 +68,28 @@ namespace SuurballeRundown.Algorithms
                 foreach (var neighbour in neighbours)
                 {
                     var newDist = q.GetVertex(currIndex).ReachingCost + neighbour.ReachingCost;
-                        var index = graph.GetVertexId(neighbour.Index);
-                        if (index != -1)
-                        {
-                            q.GetVertex(index).ReachingCost += newDist;
-                            q.GetVertex(index).Previous = q.GetVertex(smallestIndex);
-                        }
+                    var index = q.GetVertexId(neighbour.Index);
+                    if (index != -1)
+                    {
+                        q[index].ReachingCost += newDist;
+                        q[index].Previous = q.GetVertex(currIndex);
+                    }
                 }
 
-                //if(!neighbours.Any())
-                //{
-                //    currIndex = s.GetVertex(currIndex).Previous?.Index ?? throw new Exception("Cannot minimalize graph");
-                //}
+                if (!neighbours.Any() && goBackInTime > 0)
+                {
+                    currIndex = s[goBackInTime - 1].Index;
+                    q.Add(s[goBackInTime - 1]);
+                    s.RemoveAt(goBackInTime - 1);
+                    var small = q.GetVertex(smallestIndex);
+                    if (!(small is null))
+                    {
+                        s.Add(small);
+                        q.Remove(small);
+                    }
+
+                    goBackInTime--;
+                }
             }
             while (q.Count > 0);
 
