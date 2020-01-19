@@ -1,23 +1,30 @@
-﻿using SuurballeRundown.Models;
+﻿using Models;
+using Models.Models;
+using Serializer.Interfaces;
 using System.Collections.Generic;
 
-namespace SuurballeRundown.Serializer
+namespace Serializer
 {
-    public class GraphSerializer
+    public class GraphSerializer : IGraphSerializer
     {
-        public static Graph Serialize(GraphDTO graph)
+        public GraphSerializer()
+        {
+
+        }
+
+        public Graph Serialize(GraphDTO graph)
         {
             var verticies = new List<Vertex>();
-            foreach(var element in graph.Vertices)
+            for (int i = 0; i < graph.Verticies; i++)
             {
-                verticies.Add(new Vertex{ Index = element });
+                verticies.Add(new Vertex { Index = i });
             }
 
             var dictionary = new Dictionary<Relation, int>();
             var size = verticies.Count;
             for (int i = 0; i < size; i++)
             {
-                for(int o = 0; o < size; o++)
+                for (int o = 0; o < size; o++)
                 {
                     dictionary.Add(new Relation(i, o), graph.AdjacencyTable[i, o]);
                 }

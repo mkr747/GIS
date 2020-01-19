@@ -1,4 +1,4 @@
-﻿namespace SuurballeRundown.Models
+﻿namespace Models.Models
 {
     public class Vertex
     {

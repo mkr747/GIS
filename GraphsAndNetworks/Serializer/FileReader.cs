@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
-using SuurballeRundown.Models;
-using System.Collections.Generic;
+﻿using Models;
+using Models.Models;
+using Newtonsoft.Json;
+using Serializer.Interfaces;
 using System.IO;
-using System.Text.Json;
 
-namespace SuurballeRundown.Serializer
+namespace Serializer
 {
     public class FileReader : IFileReader
     {
@@ -26,10 +26,10 @@ namespace SuurballeRundown.Serializer
 
         public GraphDTO GetGraph() => JsonConvert.DeserializeObject<GraphDTO>(File.ReadAllText(_dataFile));
 
-        public void SetGraph(GraphDTO graph) => File.WriteAllText(_dataFile, JsonConvert.SerializeObject(graph));
+        public void SaveToFile(GraphDTO graph, string write) => File.WriteAllText(write, JsonConvert.SerializeObject(graph));
 
         public void SaveToFile(GraphPath path) => File.WriteAllText(_outputFile, JsonConvert.SerializeObject(path));
 
-        public void SaveToFile(GraphDTO path) => File.WriteAllText(_outputFile, JsonConvert.SerializeObject(path));
+        public void SaveToFile(GraphDTO graph) => File.WriteAllText(_outputFile, JsonConvert.SerializeObject(graph));
     }
 }

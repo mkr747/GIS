@@ -1,4 +1,4 @@
-﻿using SuurballeRundown.Models;
+﻿using Models.Models;
 
 namespace SuurballeRundown.Algorithms
 {

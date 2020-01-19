@@ -1,8 +1,8 @@
-﻿using SuurballeRundown.Models;
+﻿using Models.Models;
 using System;
 using System.Collections.Generic;
 
-namespace SuurballeRundown
+namespace Models
 {
     public static class Extensions
     {

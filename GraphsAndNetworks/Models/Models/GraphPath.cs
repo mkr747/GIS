@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace SuurballeRundown.Models
+namespace Models.Models
 {
     public class GraphPath
     {

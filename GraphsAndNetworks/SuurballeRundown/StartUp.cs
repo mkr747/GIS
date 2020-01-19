@@ -1,6 +1,7 @@
-﻿using SuurballeRundown.Algorithms;
-using SuurballeRundown.Models;
-using SuurballeRundown.Serializer;
+﻿using Models.Models;
+using Serializer;
+using Serializer.Interfaces;
+using SuurballeRundown.Algorithms;
 using System;
 
 namespace SuurballeRundown
@@ -8,13 +9,15 @@ namespace SuurballeRundown
     public class StartUp
     {
         private readonly IFileReader _fileReader;
-        private Suurballe _suurballeAlgorythm;
+        private readonly IGraphSerializer _graphSerializer;
+        private readonly Suurballe _suurballeAlgorythm;
         private Graph _graph;
 
         public StartUp()
         {
             _fileReader = new FileReader("data.txt", "output.txt");
-            _graph = GraphSerializer.Serialize(_fileReader.GetGraph());
+            _graphSerializer = new GraphSerializer();
+            _graph = _graphSerializer.Serialize(_fileReader.GetGraph());
             _suurballeAlgorythm = new Suurballe(new Dijkstra());
         }
 

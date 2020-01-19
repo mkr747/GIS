@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace SuurballeRundown.Serializer
+﻿namespace Models
 {
     public class GraphDTO
     {
-        public int[] Vertices { get; set; }
+        public int Verticies { get; set; }
 
         public int[,] AdjacencyTable { get; set; }
 
