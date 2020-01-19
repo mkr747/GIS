@@ -24,11 +24,11 @@ namespace SuurballeRundown.Algorithms
                                 x.Index != destination)
                     .ToList());
 
-            Console.WriteLine(graph.GetCost(first));
+            //Console.WriteLine(graph.GetCost(first));
             newGraph.Revert();
             
             var second = _dijkstra.ExecuteListVersion(newGraph, destination, source);
-            Console.WriteLine(newGraph.GetCost(second));
+            //Console.WriteLine(newGraph.GetCost(second));
 
             return new GraphPath[] { first, second };
         }

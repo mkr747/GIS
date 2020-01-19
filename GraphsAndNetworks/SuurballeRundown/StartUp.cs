@@ -26,20 +26,20 @@ namespace SuurballeRundown
         public void PerformTests(Graph graph, int source, int destination)
         {
             var output = _suurballeAlgorythm.Execute(graph, source, destination);
-            foreach(var i in graph.AdjacencyTable)
-            {
-                Console.WriteLine($"Table: {i.Key.InboundIndex}, {i.Key.OutboundIndex} : {i.Value}");
-            }
+            //foreach(var i in graph.AdjacencyTable)
+            //{
+            //    Console.WriteLine($"Table: {i.Key.InboundIndex}, {i.Key.OutboundIndex} : {i.Value}");
+            //}
 
-            foreach(var i in output[0].Vertices)
-            {
-                Console.WriteLine($"First:{i.Index}\n");
-            }
+            //foreach(var i in output[0].Vertices)
+            //{
+            //    Console.WriteLine($"First:{i.Index}\n");
+            //}
 
-            foreach (var i in output[1].Vertices)
-            {
-                Console.WriteLine($"Second:{i.Index}\n");
-            }
+            //foreach (var i in output[1].Vertices)
+            //{
+            //    Console.WriteLine($"Second:{i.Index}\n");
+            //}
         }
     }
 }

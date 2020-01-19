@@ -24,8 +24,12 @@ namespace SuurballeRundown
         [Benchmark]
         public void PerformTest()
         {
-            _app.PerformTests(_graphs[0], _graphs[0].Vertices.First().Index, _graphs[0].Vertices.Last().Index);
+            foreach(var graph in GetData())
+            {
+                _app.PerformTests(graph, graph.Vertices.First().Index, graph.Vertices.Last().Index);
+            }
         }
+
 
         public IEnumerable<Graph> GetData()
         {
