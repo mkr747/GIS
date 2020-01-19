@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using BenchmarkDotNet.Attributes;
+using Models;
 using Models.Models;
 using System;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace SuurballeRundown.Algorithms
         {
             _dijkstra = dijkstra;
         }
+
 
         public GraphPath[] Execute(Graph graph, int source, int destination)
         {

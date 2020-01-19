@@ -1,6 +1,4 @@
 ﻿using Serializer;
-using System;
-using System.IO;
 
 namespace GraphGenerator
 {
@@ -8,7 +6,8 @@ namespace GraphGenerator
     {
         static void Main(string[] args)
         {
-            var generator = new Generator(new FileReader("output"));
+            //var generator = new Generator(new FileReader("output"));
+            var generator = new Generator(new GraphSerializer());
             generator.Generate(10,5,12);
             
         }

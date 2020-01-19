@@ -1,5 +1,7 @@
-﻿using Models;
+﻿using BenchmarkDotNet.Attributes;
+using Models;
 using Models.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,20 +32,25 @@ namespace SuurballeRundown.Algorithms
             {
                 var minimum = INF;
                 var smallestIndex = 0;
-                foreach (var neighbour in graph.GetNeighbours(q.GetVertex(currIndex)))
+                foreach (var neighbour in graph.GetNeighbours(graph.Vertices.GetVertex(currIndex)))
                 {
-                    if (minimum > neighbour.ReachingCost)
+                    if (minimum > neighbour.ReachingCost && !s.Contains(neighbour.Index))
                     {
                         minimum = neighbour.ReachingCost;
                         smallestIndex = neighbour.Index;
                     }
                 }
 
+                if (q.GetVertex(smallestIndex) != null)
+                {
+                    q.GetVertex(smallestIndex).ReachingCost = minimum;
+                }
 
                 var get = q.GetVertex(currIndex);
-                s.Add(get);
-                q.Remove(get);
-
+                if(!(get is null)) { 
+                    s.Add(get);
+                    q.Remove(get);
+                }
 
                 if (smallestIndex == destination)
                 {
@@ -52,21 +59,24 @@ namespace SuurballeRundown.Algorithms
                     q.Remove(small);
                     break;
                 }
-
                 currIndex = smallestIndex;
-                foreach (var neighbour in graph.GetNeighbours(q.GetVertex(currIndex)))
+
+                var neighbours = graph.GetNeighbours(q.GetVertex(currIndex));
+                foreach (var neighbour in neighbours)
                 {
-                    var newDist = q.GetVertex(smallestIndex).ReachingCost + neighbour.ReachingCost;
-                    if (neighbour.ReachingCost > newDist)
-                    {
+                    var newDist = q.GetVertex(currIndex).ReachingCost + neighbour.ReachingCost;
                         var index = graph.GetVertexId(neighbour.Index);
                         if (index != -1)
                         {
-                            q.GetVertex(index).ReachingCost = newDist;
+                            q.GetVertex(index).ReachingCost += newDist;
                             q.GetVertex(index).Previous = q.GetVertex(smallestIndex);
                         }
-                    }
                 }
+
+                //if(!neighbours.Any())
+                //{
+                //    currIndex = s.GetVertex(currIndex).Previous?.Index ?? throw new Exception("Cannot minimalize graph");
+                //}
             }
             while (q.Count > 0);
 

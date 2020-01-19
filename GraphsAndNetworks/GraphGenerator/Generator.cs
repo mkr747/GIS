@@ -1,4 +1,5 @@
 ﻿using Models;
+using Models.Models;
 using Serializer.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -6,17 +7,19 @@ using System.IO;
 
 namespace GraphGenerator
 {
-    public class Generator
+    public class Generator : IGenerator
     {
-        private readonly string  _pathToFile;
-        private readonly IFileReader _fileReader;
+        //private readonly string  _pathToFile;
+        //private readonly IFileReader _fileReader;
+        private readonly IGraphSerializer _graphSerializer;
 
-        public Generator(IFileReader fileReader)
+        public Generator(IGraphSerializer graphSerializer)
         {
-            _fileReader = fileReader;
+            //_fileReader = fileReader;
+            _graphSerializer = graphSerializer;
         }
-        
-        public void Generate(int numberOfVertices, int edgePercentage, int maxEdgeWeight)
+
+        public Graph Generate(int numberOfVertices, int edgePercentage, int maxEdgeWeight)
         {
             List<int> Vertices = new List<int>();
             List<int> GraphConnectionChecker = new List<int>();
@@ -64,27 +67,28 @@ namespace GraphGenerator
                 edges.Add(new Tuple<int, int, int>(edge.Item1, edge.Item2, random.Next(1, maxEdgeWeight)));
                 allEdges.Remove(edge);
             }
-            bool flag = true;
-            int currentFileNumber = 1;
-            string fileName;
-            string pathToFile;
+            //bool flag = true;
+            //int currentFileNumber = 1;
+            //string fileName;
+            //string pathToFile;
 
-            do
-            {
-                fileName = "Graph_" + numberOfVertices + "_" + edgePercentage + "_" + maxEdgeWeight + "_" + currentFileNumber;
-                pathToFile = Path.Combine(Environment.CurrentDirectory, fileName);
-                if (!File.Exists(_pathToFile + ".txt"))
-                {
-                    flag = false;
-                }
-                currentFileNumber++;
-            }
-            while (flag);
+            //do
+            //{
+            //    fileName = "Graph_" + numberOfVertices + "_" + edgePercentage + "_" + maxEdgeWeight + "_" + currentFileNumber;
+            //    pathToFile = Path.Combine(Environment.CurrentDirectory, fileName);
+            //    if (!File.Exists(_pathToFile + ".txt"))
+            //    {
+            //        flag = false;
+            //    }
+            //    currentFileNumber++;
+            //}
+            //while (flag);
 
-            Console.WriteLine("Saving generated graph to " + fileName);
+            //Console.WriteLine("Saving generated graph to " + fileName);
             var output = SetGraph(numberOfVertices, edges);
-            _fileReader.SaveToFile(output, pathToFile);
-            
+            return _graphSerializer.Serialize(output);
+            //_fileReader.SaveToFile(output, pathToFile);
+
             //using (StreamWriter sw = File.CreateText(fileName + ".txt"))
             //{
             //    sw.WriteLine(numberOfVertices);
@@ -101,11 +105,12 @@ namespace GraphGenerator
         {
             var graph = new GraphDTO();
             var array = new int[vertices, vertices];
-            foreach(var edge in edges)
+            foreach (var edge in edges)
             {
                 array[edge.Item1, edge.Item2] = edge.Item3;
             }
 
+            graph.Verticies = vertices;
             graph.AdjacencyTable = array;
 
             return graph;

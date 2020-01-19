@@ -55,6 +55,11 @@ namespace Models
 
         public static IList<Vertex> GetNeighbours(this Graph graph, Vertex root)
         {
+            if(root is null)
+            {
+                return new List<Vertex>();
+            }
+
             var output = new List<Vertex>();
             foreach (var key in graph.AdjacencyTable.Keys)
             {
@@ -84,6 +89,19 @@ namespace Models
             }
 
             return sum;
+        }
+
+        public static int GetCost(this Graph graph, int vertexInbound, int vertexOutbound)
+        {
+            foreach(var costs in graph.AdjacencyTable.Keys)
+            {
+                if(costs.InboundIndex == vertexInbound && costs.OutboundIndex == vertexOutbound)
+                {
+                    return graph.AdjacencyTable[costs];
+                }
+            }
+
+            return 0;
         }
 
         public static int GetVertexId(this Graph graph, int index)
