@@ -8,9 +8,9 @@ namespace SuurballeRundown
         public static void Main(string[] args)
         {
             var summary = BenchmarkRunner.Run<GraphBenchmark>();
-            //var a = new GraphBenchmark();
-            //a.SetUp();
-            //a.PerformTest();
+            var a = new GraphBenchmark();
+            a.SetUp();
+            a.PerformTest();
         }
     } 
 }

@@ -4,6 +4,7 @@ using Models.Models;
 using Serializer;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace SuurballeRundown
@@ -21,10 +22,9 @@ namespace SuurballeRundown
             SetUpTestGraphs();
         }
 
-        [Benchmark]
         public void PerformTest()
         {
-            foreach(var graph in GetData())
+            foreach (var graph in GetData())
             {
                 _app.PerformTests(graph, graph.Vertices.First().Index, graph.Vertices.Last().Index);
             }
@@ -33,7 +33,7 @@ namespace SuurballeRundown
 
         public IEnumerable<Graph> GetData()
         {
-            foreach(var graph in _graphs)
+            foreach (var graph in _graphs)
             {
                 yield return graph;
             }
@@ -41,24 +41,39 @@ namespace SuurballeRundown
 
         private void SetUpTestGraphs()
         {
-            var rnd = new Random();
             _graphGenerator = new Generator(new GraphSerializer());
             _graphs = new List<Graph>();
-            for(int i = 0; i < 10; i++)
-            {
-                var numberOfVerticies = rnd.Next(5, 10);
-                var precentage = 70;
-                var maxWeight = rnd.Next(2, 30);
-                _graphs.Add(_graphGenerator.Generate(numberOfVerticies, precentage, maxWeight));
-                Console.WriteLine($"Number of verticies: {numberOfVerticies}");
-                Console.WriteLine($"Edge precentage: {precentage}%");
-                Console.WriteLine($"Max weight: {maxWeight}");
-                foreach (var o  in _graphs[i].AdjacencyTable)
-                {
-                    Console.WriteLine($"Table: {o.Key.InboundIndex}, {o.Key.OutboundIndex} : {o.Value}");
-                }
+            List<int> verticesNumberList = new List<int>() { 5, 10, 50, 100, 300, 600, 1000 };
+            List<int> percentageList = new List<int>() { 40, 60, 80 };
 
-                Console.WriteLine();
+            foreach (int verticesNumber in verticesNumberList)
+            {
+                foreach (int edgePercentage in percentageList)
+                {
+
+                    var maxWeight = 20;
+
+                    string fileName = "Graph_" + verticesNumber + "_" + edgePercentage + "_" + maxWeight + "_1";
+                    string pathToFile = Path.Combine(Environment.CurrentDirectory, fileName);
+                    if (!File.Exists(pathToFile))
+                    {
+                        Console.WriteLine("Reading " + fileName + " from file");
+                        _graphs.Add(_graphGenerator.ExternalSetGraph(File.ReadAllLines(pathToFile + ".txt")));
+                        Console.WriteLine($"Number of verticies: {verticesNumber}");
+                        Console.WriteLine($"Edge precentage: {edgePercentage}%");
+                        Console.WriteLine($"Max weight: {maxWeight}");
+                    }
+                    else
+                    {
+                        throw new Exception();
+                        //_graphs.Add(_graphGenerator.Generate(verticesNumber, edgePercentage, maxWeight));
+                        //Console.WriteLine($"Number of verticies: {verticesNumber}");
+                        //Console.WriteLine($"Edge precentage: {edgePercentage}%");
+                        //Console.WriteLine($"Max weight: {maxWeight}");
+
+                        //Console.WriteLine();
+                    }
+                }
             }
         }
     }

@@ -4,6 +4,7 @@ using Serializer;
 using Serializer.Interfaces;
 using SuurballeRundown.Algorithms;
 using System;
+using System.Diagnostics;
 
 namespace SuurballeRundown
 {
@@ -25,13 +26,19 @@ namespace SuurballeRundown
 
         public void PerformTests(Graph graph, int source, int destination)
         {
+            Console.WriteLine("Starting test");
+            var watch = Stopwatch.StartNew();   
             var output = _suurballeAlgorythm.Execute(graph, source, destination);
-            //foreach(var i in graph.AdjacencyTable)
+            watch.Stop();
+
+            Console.WriteLine("Execution time: " + watch.ElapsedMilliseconds);
+
+            //foreach (var i in graph.AdjacencyTable)
             //{
             //    Console.WriteLine($"Table: {i.Key.InboundIndex}, {i.Key.OutboundIndex} : {i.Value}");
             //}
 
-            //foreach(var i in output[0].Vertices)
+            //foreach (var i in output[0].Vertices)
             //{
             //    Console.WriteLine($"First:{i.Index}\n");
             //}
