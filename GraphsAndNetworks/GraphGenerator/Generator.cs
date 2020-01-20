@@ -140,23 +140,7 @@ namespace GraphGenerator
                 }
             }
 
-            var output = SetGraph(numberOfVertices, edges);
-            return _graphSerializer.Serialize(output);
-        }
-
-        private GraphDTO SetGraph(int vertices, IList<Tuple<int, int, int>> edges)
-        {
-            var graph = new GraphDTO();
-            var array = new int[vertices, vertices];
-            foreach (var edge in edges)
-            {
-                array[edge.Item1, edge.Item2] = edge.Item3;
-            }
-
-            graph.Verticies = vertices;
-            graph.AdjacencyTable = array;
-
-            return graph;
+            return _graphSerializer.Serialize(numberOfVertices, edges);
         }
 
         public Graph ExternalSetGraph(IList<string> fileLines)
@@ -169,7 +153,7 @@ namespace GraphGenerator
                 edges.Add(new Tuple<int, int, int>(Int32.Parse(numbers[0]), Int32.Parse(numbers[1]), Int32.Parse(numbers[2])));
             }
 
-            return _graphSerializer.Serialize(SetGraph(vertices, edges));
+            return _graphSerializer.Serialize(vertices, edges);
         }
     }
 }

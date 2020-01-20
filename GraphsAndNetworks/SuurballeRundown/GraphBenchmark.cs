@@ -51,7 +51,6 @@ namespace SuurballeRundown
             {
                 foreach (int edgePercentage in percentageList)
                 {
-
                     var maxWeight = 20;
 
                     string fileName = "Graph_" + verticesNumber + "_" + edgePercentage + "_" + maxWeight + "_1";

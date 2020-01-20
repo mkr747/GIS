@@ -1,6 +1,7 @@
 ﻿using Models;
 using Models.Models;
 using Serializer.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace Serializer
@@ -12,22 +13,18 @@ namespace Serializer
 
         }
 
-        public Graph Serialize(GraphDTO graph)
+        public Graph Serialize(int vertices, IList<Tuple<int, int, int>> edges)
         {
             var verticies = new List<Vertex>();
-            for (int i = 0; i < graph.Verticies; i++)
+            for (int i = 0; i < vertices; i++)
             {
                 verticies.Add(new Vertex { Index = i });
             }
 
             var dictionary = new Dictionary<Relation, int>();
-            var size = verticies.Count;
-            for (int i = 0; i < size; i++)
-            {
-                for (int o = 0; o < size; o++)
-                {
-                    dictionary.Add(new Relation(i, o), graph.AdjacencyTable[i, o]);
-                }
+            foreach (var edge in edges)
+            { 
+                dictionary.Add(new Relation(edge.Item1, edge.Item2), edge.Item3);
             }
 
             var outputGraph = new Graph
